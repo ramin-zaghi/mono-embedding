@@ -1,13 +1,8 @@
-//
-//  File.cpp
-//  ccubed-sample
-//
-//  Created by Andreia Gaita on 5/9/14.
-//  Copyright (c) 2014 Andreia Gaita. All rights reserved.
-//
-
 #include "File.h"
 #include <cstdarg>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 std::string File::ExecDir;
 char File::PathSeparator;

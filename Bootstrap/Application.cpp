@@ -9,6 +9,13 @@
 
 #include <vector>
 #include <chrono>
+#include <string>
+#include <iostream>
+#include <fstream>
+
+#ifndef printf_console
+  #define printf_console printf
+#endif
 
 static void reload()
 {
@@ -35,7 +42,8 @@ MonoMethod* find_method(MonoImage* image, const char* className, const char* nam
 
 MonoDomain* load_domain()
 {
-	MonoDomain* newDomain = mono_domain_create_appdomain("CCubed Child Domain", NULL);
+	char s[] = "CCubed Child Domain";
+	MonoDomain* newDomain = mono_domain_create_appdomain(s, NULL);
 	if (!newDomain) {
 		printf("Error creating domain\n");
 		return nullptr;
@@ -69,7 +77,7 @@ void unload_domain()
 
 void Application::Init()
 {
-	assemblyDir = "Managed";
+	assemblyDir = "./Managed";
 
 	std::vector<std::string> monoPaths;
 	// root of the mono dir
@@ -98,13 +106,13 @@ void Application::InitializeMono()
 	mono_config_parse(NULL);
 
 	// initialize the root domain which will hold corlib and will always be alive
-	domain = mono_jit_init_version("CCubed Root Domain", "v4.0.30319");
+	domain = mono_jit_init_version("CCubed Root Domain", "v5.3.0"); //4.0.30319");
 
 	// soft debugger needs this
 	mono_thread_set_main(mono_thread_current());
 
 	// add icalls
-	mono_add_internal_call("EmbedThings.EntryPoint::reload", reload);
+	mono_add_internal_call("EmbedThings.EntryPoint::reload", (void*)&reload);
 
 	// run the c# bits
 	Run();
@@ -138,7 +146,8 @@ bool Application::StartMonoAndLoadAssemblies()
 
 
 	std::string dll = "EmbedThings.dll";
-	std::string filename = File::BuildRootedPath(assemblyDir, dll);
+	std::string filename = assemblyDir + "/" + dll;
+
 	size_t length;
 	// read our entry point assembly
 	char* data = File::Read(filename.c_str(), &length);
@@ -150,7 +159,7 @@ bool Application::StartMonoAndLoadAssemblies()
 	auto image = mono_image_open_from_data_with_name(data, length, true /* copy data */, &status, false /* ref only */, filename.c_str());
 	if (status != MONO_IMAGE_OK || image == nullptr)
 	{
-		printf_console("Failed loading assembly %s\n", dll);
+		printf_console("Failed loading assembly %s\n", dll.c_str());
 		return true;
 	}
 
@@ -159,7 +168,7 @@ bool Application::StartMonoAndLoadAssemblies()
 	if (status != MONO_IMAGE_OK || assembly == nullptr)
 	{
 		mono_image_close(image);
-		printf_console("Failed loading assembly %s\n", dll);
+		printf_console("Failed loading assembly %s\n", dll.c_str());
 		return true;
 	}
 

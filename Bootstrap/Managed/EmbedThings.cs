@@ -41,6 +41,8 @@ namespace EmbedThings
 					return 0;
 				}
 			}
+
+			Console.WriteLine("Stopped the loop...");
 			return 2;
 		}
 

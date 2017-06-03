@@ -1,9 +1,16 @@
-#pragma once
+#ifndef __APPLICATION_H__
+#define __APPLICATION_H__
 
-#include "stdafx.h"
 #include <mono/jit/jit.h>
 #include <thread>
 #include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+
+#ifndef printf_console
+  #define printf_console printf
+#endif
 
 class Application
 {
@@ -22,3 +29,5 @@ private:
 	std::vector<MonoImage*> images;
 	std::vector<MonoObject*> instances;
 };
+
+#endif /* define(__APPLICATION_H__) */

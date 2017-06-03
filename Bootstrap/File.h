@@ -1,16 +1,13 @@
-//
-//  File.h
-//  ccubed-sample
-//
-//  Created by Andreia Gaita on 5/9/14.
-//  Copyright (c) 2014 Andreia Gaita. All rights reserved.
-//
-
 #ifndef __FILE_H__
 #define __FILE_H__
 
-#include "stdafx.h"
 #include <string>
+#include <iostream>
+#include <fstream>
+
+#ifndef printf_console
+  #define printf_console printf
+#endif
 
 class File {
 public:
