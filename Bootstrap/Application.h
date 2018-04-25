@@ -15,6 +15,7 @@
 class Application
 {
 public:
+	Application();
 	void Init();
 	void InitializeMono();
 	void Run();
@@ -22,12 +23,14 @@ public:
 	void StopMono();
 	bool StartMono();
 	void FireOnReload();
+	void EnableDebugMode();
 
 private:
 	std::string assemblyDir;
 	MonoDomain* domain;
 	std::vector<MonoImage*> images;
 	std::vector<MonoObject*> instances;
+	bool debugMode;
 };
 
 #endif /* define(__APPLICATION_H__) */

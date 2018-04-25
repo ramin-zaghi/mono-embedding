@@ -6,6 +6,7 @@
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/mono-gc.h>
 #include <mono/metadata/environment.h>
+#include <mono/metadata/mono-debug.h>
 
 #include <vector>
 #include <chrono>
@@ -75,6 +76,11 @@ void unload_domain()
 }
 
 
+Application::Application() :
+	debugMode(false)
+{
+}
+
 void Application::Init()
 {
 	assemblyDir = "./Managed";
@@ -105,8 +111,22 @@ void Application::InitializeMono()
 
 	mono_config_parse(NULL);
 
+	// Options for enabling debugging
+	if (debugMode) {
+		const char* jit_options[] = {
+			"--debugger-agent=transport=dt_socket,address=127.0.0.1:10000"
+		};
+		mono_jit_parse_options(1, (char**)jit_options);
+	}
+
 	// initialize the root domain which will hold corlib and will always be alive
 	domain = mono_jit_init_version("CCubed Root Domain", "v5.3.0"); //4.0.30319");
+
+	// Enable debugging
+	if (debugMode) {
+		mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+		mono_debug_domain_create(domain);
+	}
 
 	// soft debugger needs this
 	mono_thread_set_main(mono_thread_current());
@@ -250,3 +270,9 @@ void Application::FireOnReload()
 		}
 	}
 }
+
+void Application::EnableDebugMode()
+{
+	debugMode = true;
+}
+
