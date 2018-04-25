@@ -83,7 +83,7 @@ Application::Application() :
 
 void Application::Init()
 {
-	assemblyDir = "./Managed";
+	assemblyDir = "./Managed/bin/Debug/";
 
 	std::vector<std::string> monoPaths;
 	// root of the mono dir

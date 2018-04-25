@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{46B199E2-D3C0-44F6-BD48-5194ED540AF2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>EmbedThings</RootNamespace>
+    <AssemblyName>EmbedThings</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="EmbedThings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Application.cpp">
+      <Link>Application.cpp</Link>
+    </None>
+    <None Include="..\Application.h">
+      <Link>Application.h</Link>
+    </None>
+    <None Include="..\File.cpp">
+      <Link>File.cpp</Link>
+    </None>
+    <None Include="..\File.h">
+      <Link>File.h</Link>
+    </None>
+    <None Include="..\main.cpp">
+      <Link>main.cpp</Link>
+    </None>
+    <None Include="..\Manager.cpp">
+      <Link>Manager.cpp</Link>
+    </None>
+    <None Include="..\Manager.h">
+      <Link>Manager.h</Link>
+    </None>
+  </ItemGroup>
+</Project>
